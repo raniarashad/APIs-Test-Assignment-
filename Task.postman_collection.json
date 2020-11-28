@@ -1,0 +1,282 @@
+{
+	"info": {
+		"_postman_id": "3a2147d6-1fa9-4b3e-8057-09c8b8d83a17",
+		"name": "Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetCategories ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "40e48b7e-2e57-48eb-a03f-0a71abd92ccf",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 1000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.ounass.ae/categories/getcategorytree",
+					"protocol": "https",
+					"host": [
+						"www",
+						"ounass",
+						"ae"
+					],
+					"path": [
+						"categories",
+						"getcategorytree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Case2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d527aeeb-74cd-43d9-95d4-5fa84a733cb0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.test('Verifying that the number of nodes is 8', function() {\r",
+							"  pm.expect(jsonData.children).length(8);\r",
+							"});\r",
+							"\r",
+							"for (var i =0 ; i<jsonData.children.length ; i++){\r",
+							"pm.test('Verifying that - Every First node should have more than 10 categories on children_data node', function() {\r",
+							"  pm.expect(jsonData.children[i].children.length).to.be.above(10);\r",
+							"});\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.ounass.ae/categories/getcategorytree",
+					"protocol": "https",
+					"host": [
+						"www",
+						"ounass",
+						"ae"
+					],
+					"path": [
+						"categories",
+						"getcategorytree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Case3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c8756bc6-3809-4ab1-940c-8ccb5cff6c38",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.globals.get(jsonData.children.categoryId);\r",
+							"pm.globals.set(\"Category_ID0\", jsonData.children[0].categoryId);\r",
+							"pm.globals.set(\"Category_ID1\", jsonData.children[1].categoryId);\r",
+							"pm.globals.set(\"Category_ID2\", jsonData.children[2].categoryId);\r",
+							"pm.globals.set(\"Category_ID3\", jsonData.children[3].categoryId);\r",
+							"pm.globals.set(\"Category_ID4\", jsonData.children[4].categoryId);\r",
+							"pm.globals.set(\"Category_ID5\", jsonData.children[5].categoryId);\r",
+							"pm.globals.set(\"Category_ID6\", jsonData.children[6].categoryId);\r",
+							"pm.globals.set(\"Category_ID7\",jsonData.children[7].categoryId);\r",
+							"\r",
+							"for(var i=0;i<jsonData.children.length;i++)\r",
+							"{\r",
+							"pm.test('Every node contains on properties (Name,ID,URL)', function() {\r",
+							"  pm.expect(jsonData.children[i]).to.have.property('name');\r",
+							"  pm.expect(jsonData.children[i]).to.have.property('categoryId');\r",
+							"  pm.expect(jsonData.children[i]).to.have.property('url');\r",
+							"});\r",
+							"}\r",
+							"\r",
+							"\r",
+							"for(var i=0;i<jsonData.children[0].children.length;i++)\r",
+							"{\r",
+							"    for (var j =0 ; j<jsonData.children[j].children[i]; j++){\r",
+							"pm.test('Every node contains on properties (Name,ID,URL)', function() {\r",
+							"  pm.expect(jsonData.children[j].children[i]).to.have.property('name');\r",
+							"  pm.expect(jsonData.children[j].children[i]).to.have.property('categoryId');\r",
+							"  pm.expect(jsonData.children[j].children[i]).to.have.property('url');\r",
+							"});\r",
+							"}\r",
+							"}\r",
+							"/*\r",
+							"for(var i=0;i<jsonData.children[1].children.length;i++)\r",
+							"{\r",
+							"pm.test('Every node contains on properties (Name,ID,URL)', function() {\r",
+							"  pm.expect(jsonData.children[1].children[i]).to.have.property('name');\r",
+							"  pm.expect(jsonData.children[1].children[i]).to.have.property('categoryId');\r",
+							"  pm.expect(jsonData.children[1].children[i]).to.have.property('url');\r",
+							"});\r",
+							"}\r",
+							"\r",
+							"for(var i=0;i<jsonData.children[2].children.length;i++)\r",
+							"{\r",
+							"pm.test('Every node contains on properties (Name,ID,URL)', function() {\r",
+							"  pm.expect(jsonData.children[2].children[i]).to.have.property('name');\r",
+							"  pm.expect(jsonData.children[2].children[i]).to.have.property('categoryId');\r",
+							"  pm.expect(jsonData.children[2].children[i]).to.have.property('url');\r",
+							"});\r",
+							"}\r",
+							"*/\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.ounass.ae/categories/getcategorytree",
+					"protocol": "https",
+					"host": [
+						"www",
+						"ounass",
+						"ae"
+					],
+					"path": [
+						"categories",
+						"getcategorytree"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Case4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b8a5d413-ef57-4aef-9af9-df5ac79825db",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"/*\r",
+							"pm.test('Every node contains an \"image\" except third level' , function() {\r",
+							"  pm.expect(jsonData).to.have.property('image');\r",
+							"});\r",
+							"\r",
+							"*/\r",
+							"for (var j=0 ; j<jsonData.children[0].children[0].children.length; j++)\r",
+							"{\r",
+							"    if((jsonData.children[0].children[0].children[j].level) == 3){\r",
+							"            pm.test(\"Checking Third level of categoryID = 3110 have “includeInMenu” as false and Haven't 'Image' \", function(){\r",
+							"            pm.expect(jsonData.children[0].children[0].children[j].includeInMenu).to.eql(false);\r",
+							"            pm.expect(jsonData.children[0].children[0].children[j]).to.not.have.property('image');\r",
+							"\r",
+							"    });\r",
+							" }\r",
+							"}\r",
+							"\r",
+							"for (var j=0 ; j<jsonData.children[1].children[1].children.length; j++)\r",
+							"{\r",
+							"    if((jsonData.children[1].children[1].children[j].level) == 3){\r",
+							"            pm.test(\"Checking Third level of categoryid = 2790 have “includeInMenu” as false and haven't image \", function(){\r",
+							"            pm.expect(jsonData.children[1].children[1].children[j].includeInMenu).to.eql(false);\r",
+							"            pm.expect(jsonData.children[1].children[1].children[j]).not.have.property('image');\r",
+							"    });\r",
+							" }\r",
+							"}\r",
+							"for (var j=0 ; j<jsonData.children[2].children[2].children.length; j++)\r",
+							"{\r",
+							"    if((jsonData.children[2].children[2].children[j].level) == 3){\r",
+							"            pm.test(\"Checking Third level of categoryid = 3115 have “includeInMenu” as false and haven't image \", function(){\r",
+							"            pm.expect(jsonData.children[2].children[2].children[j].includeInMenu).to.eql(false);\r",
+							"            pm.expect(jsonData.children[2].children[2].children[j]).not.have.property('image');\r",
+							"    });\r",
+							" }\r",
+							"}\r",
+							"for (var j=0 ; j<jsonData.children[3].children[3].children.length; j++)\r",
+							"{\r",
+							"    if((jsonData.children[3].children[3].children[j].level) == 3){\r",
+							"            pm.test(\"Checking Third level of categoryid = 3486 have “includeInMenu” as false and haven't image \", function(){\r",
+							"            pm.expect(jsonData.children[3].children[3].children[j].includeInMenu).to.eql(false);\r",
+							"            pm.expect(jsonData.children[3].children[3].children[j]).not.have.property('image');\r",
+							"    });\r",
+							" }\r",
+							"}\r",
+							"for (var j=0 ; j<jsonData.children[4].children[4].children.length; j++)\r",
+							"{\r",
+							"    if((jsonData.children[4].children[4].children[j].level) == 3){\r",
+							"            pm.test(\"Checking Third level of categoryid = 4264 have “includeInMenu” as false and haven't image \", function(){\r",
+							"            pm.expect(jsonData.children[4].children[4].children[j].includeInMenu).to.eql(false);\r",
+							"            pm.expect(jsonData.children[4].children[4].children[j]).not.have.property('image');\r",
+							"\r",
+							"    });\r",
+							" }\r",
+							"}\r",
+							"\r",
+							"for (var j=0 ; j<jsonData.children[4].children[4].children.length; j++){\r",
+							"console.log(jsonData.children[4].children[4].children[j].level);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.ounass.ae/categories/getcategorytree",
+					"protocol": "https",
+					"host": [
+						"www",
+						"ounass",
+						"ae"
+					],
+					"path": [
+						"categories",
+						"getcategorytree"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
